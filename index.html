@@ -8,9 +8,206 @@
 </head>
 <body>
 
+<h1>uml diagram</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz-uml}
+\begin{document}
+
+
+\begin{tikzpicture}
+\begin{umlpackage}{p}
+\begin{umlpackage}{sp1}
+\umlclass[template=T]{A}{
+  n : uint \\ t : float
+}{}
+\umlclass[y=-3]{B}{
+  d : double
+}{
+  \umlvirt{setB(b : B) : void} \\ getB() : B}
+\end{umlpackage}
+\begin{umlpackage}[x=10,y=-6]{sp2}
+\umlinterface{C}{
+  n : uint \\ s : string
+}{}
+\end{umlpackage}
+\umlclass[x=2,y=-10]{D}{
+  n : uint
+  }{}
+\end{umlpackage}
+
+\umlassoc[geometry=-|-, arg1=tata, mult1=*, pos1=0.3, arg2=toto, mult2=1, pos2=2.9, align2=left]{C}{B}
+\umlunicompo[geometry=-|, arg=titi, mult=*, pos=1.7, stereo=vector]{D}{C}
+\umlimport[geometry=|-, anchors=90 and 50, name=import]{sp2}{sp1}
+\umlaggreg[arg=tutu, mult=1, pos=0.8, angle1=30, angle2=60, loopsize=2cm]{D}{D}
+\umlinherit[geometry=-|]{D}{B}
+\umlnote[x=2.5,y=-6, width=3cm]{B}{Je suis une note qui concerne la classe B}
+\umlnote[x=7.5,y=-2]{import-2}{Je suis une note qui concerne la relation d'import}
+\end{tikzpicture}
+
+\end{document}
+</script>
+
+<h1>deque</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, shapes.geometric}
+
+\begin{document}
+\begin{tikzpicture}[
+    node distance=0mm,
+    box/.style={rectangle, draw=blue!60, fill=blue!10, thick, minimum width=1.2cm, minimum height=1cm},
+    arrow/.style={-{Stealth[length=3mm]}, thick, red!70},
+    label/.style={font=\small\bfseries, red!70}
+]
+
+% Title
+\node[font=\Large\bfseries] at (3, 2.5) {Double-Ended Queue (Deque)};
+
+% Draw the deque elements
+\node[box] (n1) at (0,0) {12};
+\node[box, right=of n1] (n2) {7};
+\node[box, right=of n2] (n3) {23};
+\node[box, right=of n3] (n4) {45};
+\node[box, right=of n4] (n5) {8};
+
+% Front and Rear labels
+\node[below=5mm of n1, font=\small\bfseries, blue!70] {Front};
+\node[below=5mm of n5, font=\small\bfseries, blue!70] {Rear};
+
+% Left side operations (Front)
+\draw[arrow] (n1.north) -- ++(0, 0.8) node[label, above] {pop\_front()};
+\draw[arrow] ([xshift=-3mm]n1.south) -- ++(0, -1.8) node[label, below] {push\_front()};
+
+% Right side operations (Rear)
+\draw[arrow] (n5.north) -- ++(0, 0.8) node[label, above] {pop\_back()};
+\draw[arrow] ([xshift=3mm]n5.south) -- ++(0, -1.8) node[label, below] {push\_back()};
+
+% Bidirectional arrow showing deque concept
+\draw[{Stealth[length=3mm]}-{Stealth[length=3mm]}, thick, green!60!black] 
+    ([yshift=-2.5cm]n1.south) -- ([yshift=-2.5cm]n5.south) 
+    node[midway, below=8mm, font=\small\bfseries, green!60!black] {Operations allowed at both ends};
+
+\end{tikzpicture}
+\end{document}
+</script>
+<h1>data-structures</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{xcolor}
+\usetikzlibrary{arrows.meta,positioning,shapes.misc,calc}
+
+% --- Colors ---
+\definecolor{dsbrown}{HTML}{8A4F2D}
+\definecolor{primviolet}{HTML}{7A6A8F}
+\definecolor{itemviolet}{HTML}{6E687E}
+\definecolor{magentaH}{HTML}{D6427A}
+\definecolor{yellowH}{HTML}{D8BF2A}
+\definecolor{grayH}{HTML}{79838E}
+\definecolor{greenH}{HTML}{6B8469}
+\definecolor{orangeH}{HTML}{D97A36}
+
+% --- Styles ---
+\tikzset{
+  >={Stealth[length=3.8pt]},
+  dotedge/.style={dash pattern=on 2pt off 2pt, line width=0.6pt},
+  treeedge/.style={dotedge,-{Stealth[length=3.8pt]}},
+  head/.style={draw=none, rounded corners=2mm, text=white,
+               font=\bfseries\small, minimum width=34mm, minimum height=8mm,
+               align=center, inner xsep=4mm, inner ysep=2.3mm},
+  tag/.style={draw=none, rounded corners=1.5mm, text=white,
+              font=\bfseries\footnotesize, minimum width=29mm, minimum height=6.8mm,
+              align=center, inner xsep=3mm, inner ysep=1.8mm},
+  item/.style={draw=none, rounded corners=1.5mm, text=white,
+               font=\bfseries\scriptsize, minimum width=22mm, minimum height=6.2mm,
+               align=center, inner xsep=2mm, inner ysep=1.3mm},
+}
+
+\begin{document}
+\begin{tikzpicture}[node distance=10mm and 13mm] % slightly tighter
+
+% Top title
+\node[head, fill=dsbrown, minimum width=44mm] (top) {Data Structures};
+
+% Level 1: Primitive vs Non-Primitive
+\node[head, fill=primviolet] (prim) [below left=16mm and 80mm of top] {Primitive Data\\Structures};
+\node[head, fill=magentaH]   (nonp) [below right=16mm and 80mm of top] {Non-Primitive\\Data Structures};
+
+% dashed drops from top
+\draw[treeedge] (top) -| (prim.north);
+\draw[treeedge] (top) -| (nonp.north);
+
+% ==== Primitive cluster: children under parent, left-in arrows merge upward ====
+\def\pcsep{6.6mm}   % vertical gap between child boxes
+
+% Children stacked under the Primitive node
+\node[item, fill=itemviolet] (int) [below left =12mm and 26mm of prim] {Integer};
+\node[item, fill=itemviolet] (flt) [below=12mm of prim] {Float};
+\node[item, fill=itemviolet] (chr) [below right=12mm and 26mm of prim] {Character};
+\node[item, fill=itemviolet] (bol) [below right=12mm and 68mm of prim] {Boolean};
+
+% Individual arrows from parent to each child
+\draw[treeedge] (prim) -| (int.north);
+\draw[treeedge] (prim) -- (flt.north);
+\draw[treeedge] (prim) -| (chr.north);
+\draw[treeedge] (prim) -| (bol.north);
+% ==== Non-Primitive side ====
+
+% Non-Primitive split: Linear vs Non-Linear (slightly closer than before)
+\node[head, fill=magentaH] (lin)  [below left =20mm and 86mm of nonp] {Linear};
+\node[head, fill=magentaH] (nlin) [below right=20mm and 86mm of nonp] {Non-Linear};
+
+\draw[treeedge] (nonp) -| (lin.north);
+\draw[treeedge] (nonp) -| (nlin.north);
+
+% Linear: Direct vs Sequential
+\node[tag, fill=yellowH] (direct)     [below left =12mm and 22mm of lin] {Direct\\Access};
+\node[tag, fill=grayH]   (sequential) [below right=12mm and 22mm of lin] {Sequential\\Access};
+
+\draw[treeedge] (lin) -| (direct.north);
+\draw[treeedge] (lin) -| (sequential.north);
+
+% Direct items
+\node[item, fill=yellowH!90!black] (arr) [below left =6mm and  8mm of direct] {Array};
+\node[item, fill=yellowH!90!black] (mat) [below right=6mm and  8mm of direct] {Matrix};
+\draw[treeedge] (direct) -| (arr.north);
+\draw[treeedge] (direct) -| (mat.north);
+
+% Sequential items
+\node[item, fill=grayH!90!black] (ll)  [below left =6mm and 16mm of sequential] {Linked List};
+\node[item, fill=grayH!90!black] (stk) [below=6mm of sequential] {Stack};
+\node[item, fill=grayH!90!black] (que) [below right=6mm and 16mm of sequential] {Queue};
+\draw[treeedge] (sequential) -| (ll.north);
+\draw[treeedge] (sequential) -- (stk.north);
+\draw[treeedge] (sequential) -| (que.north);
+
+% Non-Linear: Hierarchical vs Unordered (slightly closer than before, still clear)
+\node[tag, fill=greenH]  (hier) [below left =12mm and 26mm of nlin] {Hierarchical};
+\node[tag, fill=orangeH] (unor) [below right=12mm and 26mm of nlin] {Unordered};
+
+\draw[treeedge] (nlin) -| (hier.north);
+\draw[treeedge] (nlin) -| (unor.north);
+
+% Hierarchical items
+\node[item, fill=greenH!90!black] (tree) [below left =6mm and 18mm of hier] {Trees};
+\node[item, fill=greenH!90!black] (heap) [below=6mm of hier] {Heaps};
+\node[item, fill=greenH!90!black] (trie) [below right=6mm and 18mm of hier] {Trie};
+\draw[treeedge] (hier) -| (tree.north);
+\draw[treeedge] (hier) -- (heap.north);
+\draw[treeedge] (hier) -| (trie.north);
+
+% Unordered items
+\node[item, fill=orangeH!90!black] (graph) [below left =6mm and 18mm of unor] {Graphs};
+\node[item, fill=orangeH!90!black] (set)   [below=6mm of unor] {Sets};
+\node[item, fill=orangeH!90!black] (hash)  [below right=6mm and 18mm of unor] {Hash Tables};
+\draw[treeedge] (unor) -| (graph.north);
+\draw[treeedge] (unor) -- (set.north);
+\draw[treeedge] (unor) -| (hash.north);
+
+\end{tikzpicture}
+\end{document}
+</script>
+
 <h1>array</h1>
 <script type="text/tikz" data-show-console="true">
-
 \usetikzlibrary{shapes.multipart, calc}
 
 \begin{document}
