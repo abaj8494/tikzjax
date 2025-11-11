@@ -3,35 +3,686 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<script src="./output/tikzjax.js"></script>
-	<link rel="stylesheet" href="./output/fonts.css">
+	<script src="https://abaj.ai/code/tikzjax/output/tikzjax.js"></script>
+	<link rel="stylesheet" href="https://abaj.ai/code/tikzjax/output/fonts.css">
 </head>
 <body>
 
-<h1>tikz-cd</h1>
-<script type="text/tikz" data-show-console="true">%
-\usepackage{amssymb}
-\usepackage{quiver}
-\usepackage{tikz-cd}
-\usetikzlibrary{decorations.pathmorphing}
+<h1>array</h1>
+<script type="text/tikz" data-show-console="true">
+
+\usetikzlibrary{shapes.multipart, calc}
+
 \begin{document}
-% https://q.uiver.app/?q=WzAsNyxbMSwxLCJhIl0sWzMsMSwiYiJdLFsxLDIsImMiXSxbMywyLCJjIl0sWzEsMCwiRiJdLFswLDAsIlxccHJvZCJdLFswLDEsIlxcc3VtIl0sWzAsMV0sWzAsMiwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzIsMywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoic3F1aWdnbHkifX19XSxbNCwwLCIiLDMseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9LCJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifSwiaGVhZCI6eyJuYW1lIjoiaGFycG9vbiIsInNpZGUiOiJ0b3AifX19XSxbNSw2XSxbNyw5LCIiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzEyLDExLCIiLDMseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzAsOSwiIiwwLHsibGV2ZWwiOjEsInN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dLFsxNCwxMywiIiwzLHsiY3VydmUiOjMsImxldmVsIjoxLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
-\begin{tikzcd}
-	\prod & F \\
-	\sum & a && b \\
-	& c && c
-	\arrow[""{name=0, anchor=center, inner sep=0}, from=2-2, to=2-4]
-	\arrow[dotted, from=2-2, to=3-2]
-	\arrow[""{name=1, anchor=center, inner sep=0}, dashed, from=3-2, to=3-4]
-	\arrow[squiggly, from=2-4, to=3-4]
-	\arrow[""{name=2, anchor=center, inner sep=0}, "\shortmid"{marking}, hook, harpoon, from=1-2, to=2-2]
-	\arrow[""{name=3, anchor=center, inner sep=0}, from=1-1, to=2-1]
-	\arrow[""{name=4, anchor=center, inner sep=0}, shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
-	\arrow[""{name=5, anchor=center, inner sep=0}, shorten <=6pt, shorten >=6pt, Rightarrow, from=3, to=2]
-	\arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=1]
-	\arrow[curve={height=18pt}, dashed, from=5, to=4]
-\end{tikzcd}
+\begin{tikzpicture}[array/.style={rectangle split,rectangle split horizontal, rectangle split parts=#1,draw, anchor=center, fill=white}]
+\node[array=5] (a) {
+\nodepart{one}d
+\nodepart{two}
+\nodepart{three}c
+\nodepart{four}c
+\nodepart{five}b
+};
+\node[color=gray, anchor=north, yshift=-0.5] at (a.one)   {\tiny $0$};
+\node[color=gray, anchor=north, yshift=-2] at (a.two)   {\tiny $1$};
+\node[color=gray, anchor=north, yshift=-2] at (a.three) {\tiny $2$};
+\node[color=gray, anchor=north, yshift=-2] at (a.four)  {\tiny $3$};
+\node[color=gray, anchor=north, yshift=-0.5] at (a.five)  {\tiny $4$};
+\end{tikzpicture}
 \end{document}
+</script>
+
+
+<h1>stack</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{shapes.multipart}
+\begin{document}
+\begin{tikzpicture}[stack/.style={rectangle split, rectangle split parts=#1, draw, anchor=center, minimum width=1cm}]
+    \node[draw, minimum width=1cm, minimum height=0.5cm] (in) at (-1,2) {};
+    \node[draw, minimum width=1cm, minimum height=0.5cm] (out) at (1,2) {};
+    
+    \node[stack=4] (stack) at (0,0.17) {
+        \nodepart{one} 
+        \nodepart{two} 
+        \nodepart{three} 
+        \nodepart{four}
+    };
+
+    \draw[-latex] (0.25,1) .. controls (0.25,1.5) and (1,1.5) .. (out.south);
+    \draw[-latex] (in.south) .. controls (-1,1.5) and (-0.25,1.5) .. (-0.25,1);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>queue</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{shapes.multipart}
+\begin{document}
+\begin{tikzpicture}[queue/.style={rectangle split, rectangle split parts=#1, draw, anchor=center, minimum width=1.5cm}]
+    \node[draw, minimum width=1cm, minimum height=0.5cm] (in) at (-2,2) {};
+    \node[draw, minimum width=1cm, minimum height=0.5cm] (out) at (2,-2) {};
+    
+    \node[queue=4] (queue) at (0,0) {
+        \nodepart{one} 
+        \nodepart{two} 
+        \nodepart{three} 
+        \nodepart{four}
+    };
+
+    \draw[-latex] (queue.south) .. controls (0,-1.5) and (2,-1.5) .. (out.north);
+    \draw[-latex] (in.south) .. controls (-2,1.5) and (0,1.5) .. (queue.north);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>simple linked list</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{chains,shapes}
+
+\newcommand{\chainlabel}[2]{\path [<-, draw, shorten >=10pt] (#1) |- node [at end] {#2} ++(-1,1);}
+
+\begin{document}
+\begin{tikzpicture}[every node/.style={rectangle split, rectangle split parts=2, rectangle split horizontal,minimum height=14pt}, node distance=1em, start chain,
+ every join/.style={->, shorten <=-4.5pt}]
+
+ \node[draw, on chain, join] { 1  };
+ \node[draw, on chain, join] { 7  };
+ \node[draw, on chain, join] { 5  };
+ \node[draw, on chain, join] { 2  };
+ \node[draw, on chain, join] {};
+\chainlabel{chain-1.one north}{head};
+\end{tikzpicture}  
+
+\end{document}
+</script>
+
+<h1>binary tree</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{arrows,positioning, calc}
+\tikzstyle{vertex}=[draw,fill=black!15,circle,minimum size=20pt,inner sep=0pt]
+
+\begin{document}
+\begin{tikzpicture}[very thick,level/.style={sibling distance=60mm/#1}]
+\node [vertex] (r){$17$}
+  child {
+    node [vertex] (a) {$19$}
+    child {
+      node [vertex] {$20$}
+      child {
+        node [vertex] {$-3$}
+        child {node [vertex] {$17$}}
+        child {node [vertex] {$5$}}
+      }
+      child {node [vertex] {$6$}}
+    }
+    child {
+      node [vertex] {$3$}
+      child {node [vertex] {$7$}}
+      child {node [vertex] {$2$}}
+    }
+  }
+  child {
+    node [vertex] {$9$}
+    child {
+      node [vertex] {$8$}
+      child {node [vertex] {$2$}}
+    }
+    child {
+      node [vertex] {$11$}
+      child {node [vertex] {$17$}}
+      child {node [vertex] {$-4$}}
+    }
+  };
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>dijkstra fail</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{arrows,positioning, calc}
+\tikzset{
+    %Define standard arrow tip
+    ->,>=stealth',shorten >=1pt,auto,node distance=3cm, very thick,
+    % Define arrow style
+    main node/.style={
+        circle,
+        fill=blue!20,
+        draw,
+        font=\sffamily\Large\bfseries
+    }
+}
+
+\begin{document}
+\begin{tikzpicture}[,]
+
+  \node[main node] (A) {A};
+  \node[main node] (C) [below of=A] {C};
+  \node[main node] (B) [right of=A] {B};
+  \node[main node] (D) [right of=C] {D};
+
+  \path[every node/.style={font=\sffamily\small}]
+    (A) edge node {4} (C)
+        edge node {3} (B)
+    (C) edge node {-2} (B)
+    (B) edge node {1} (D);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>ieee 754 float</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{shapes.multipart, calc, decorations.pathreplacing}
+
+\begin{document}
+\begin{tikzpicture}[array/.style={rectangle split,rectangle split horizontal, rectangle split parts=#1,draw, anchor=center, rectangle split part fill={blue!20, green!20, blue!20!green!90}}]
+\node[array=3] (a) {
+\nodepart{one}0
+\nodepart{two}01001100
+\nodepart{three}01001111000000001111111
+};
+
+\draw [decoration={brace,raise=2pt},decorate] ($(a.two) + (-0.13,+0.35)$) --  node[above=3pt]{Exponent (8 bit)}($(a.three) + (-0.13,+0.35)$);
+\draw [decoration={brace,mirror,raise=2pt},decorate] ($(a.three) + (-0.13,-0.14)$) --  node[below=3pt]{Mantissa (23 bit)}(a.south east);
+\draw [decoration={brace,mirror,raise=2pt},decorate] ($(a.one) + (-0.13,-0.14)$) --  node[below=3pt]{Sign (1 bit)}($(a.two) + (-0.13,-0.15)$);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>singly linked list</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{calc,shapes.multipart,chains,arrows}
+
+\tikzset{
+    squarecross/.style={
+        draw, rectangle,minimum size=18pt, fill=orange!80,
+        inner sep=0pt, text=black,
+        path picture = {
+            \draw[black]
+            (path picture bounding box.north west) --
+            (path picture bounding box.south east)
+            (path picture bounding box.south west) --
+            (path picture bounding box.north east);
+        }
+    }
+}
+
+\begin{document}
+\begin{tikzpicture}[
+        list/.style={
+            very thick, rectangle split,
+            rectangle split parts=2, draw,
+            rectangle split horizontal, minimum size=18pt,
+            inner sep=4pt, text=black,
+            rectangle split part fill={red!20, blue!20}
+        },
+        ->, start chain, very thick
+      ]
+
+  \node[list,on chain] (A) {12};
+  \node[list,on chain] (B) {99};
+  \node[list,on chain] (C) {37};
+  \node[squarecross]   (D) [right=of C] {};
+  \draw[*->] let \p1 = (A.two), \p2 = (A.center) in (\x1,\y2) -- (B);
+  \draw[*->] let \p1 = (B.two), \p2 = (B.center) in (\x1,\y2) -- (C);
+  \draw[*->] let \p1 = (C.two), \p2 = (C.center) in (\x1,\y2) -- (D);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>doubly linked list</h1>
+<script type="text/tikz" data-show-console="true">
+
+\usetikzlibrary{calc,shapes.multipart,chains,arrows,positioning}
+
+\tikzset{
+    squarecross/.style={
+        draw, rectangle,minimum size=18pt, fill=orange!80,
+        inner sep=0pt, text=black,
+        path picture = {
+            \draw[black]
+            (path picture bounding box.north west) --
+            (path picture bounding box.south east)
+            (path picture bounding box.south west) --
+            (path picture bounding box.north east);
+        }
+    }
+}
+
+\begin{document}
+\begin{tikzpicture}[
+        list/.style={
+            very thick, rectangle split,
+            rectangle split parts=3, draw,
+            rectangle split horizontal, minimum size=18pt,
+            inner sep=5pt, text=black,
+            rectangle split part fill={blue!20, red!20, blue!20}
+        },
+        ->, start chain, very thick
+      ]
+
+  \node[list,on chain] (A) {\nodepart{second} 12};
+  \node[list,on chain] (B) {\nodepart{second} 99};
+  \node[list,on chain] (C) {\nodepart{second} 37};
+
+  \node[squarecross]   (D) [right=of C] {};
+  \node[squarecross]   (E) [left= of A] {};
+
+  \path[*->] let \p1 = (A.three), \p2 = (A.center) in (\x1,\y2) edge [bend left] ($(B.one)+(0,0.2)$);
+  \path[*->] let \p1 = (B.three), \p2 = (B.center) in (\x1,\y2) edge [bend left] ($(C.one)+(0,0.2)$);
+  \draw[*->] let \p1 = (C.three), \p2 = (C.center) in (\x1,\y2) -- (D);
+
+  \draw[*->] ($(A.one)+(0.2,0.1)$) -- (E);
+  \path[*->] ($(B.one)+(0.1,0.1)$) edge [bend left] ($(A.three)+(0,-0.05)$);
+  \path[*->] ($(C.one)+(0.1,0.1)$) edge [bend left] ($(B.three)+(0,-0.05)$);
+\end{tikzpicture}
+\end{document}
+</script>
+
+
+<h1>heap</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{arrows,positioning, calc}
+\tikzstyle{vertex}=[draw,fill=black!15,circle,minimum size=18pt,inner sep=0pt]
+
+
+\begin{document}
+\begin{tikzpicture}[very thick,level/.style={sibling distance=70mm/#1}]
+\node [vertex] (r){$-4$}
+  child {
+    node [vertex] (a) {$2$}
+    child {
+      node [vertex] {$5$}
+      child {
+        node [vertex] {$6$}
+        child {node [vertex] {$20$}}
+      }
+      child {
+        node [vertex] {$9$}
+      }
+    }
+    child {
+      node [vertex] {$3$}
+      child {node [vertex] {$19$}}
+      child {node [vertex] {$7$}}
+    }
+  }
+  child {
+    node [vertex] {$-3$}
+    child {
+      node [vertex] {$8$}
+      child {node [vertex] {$17$}}
+      child {node [vertex] {$17$}}
+    }
+    child {
+      node [vertex] {$2$}
+      child {node [vertex] {$11$}}
+      child {node [vertex] {$17$}}
+    }
+  };
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>cyclic graph</h1>
+<script type="text/tikz" data-show-console="true">
+
+\usetikzlibrary{arrows,positioning, calc}
+\tikzstyle{vertex}=[draw,fill=black!15,circle,minimum size=20pt,inner sep=0pt]
+\tikzstyle{selected edge} = [draw,line width=5pt,-,red!50]
+
+\begin{document}
+\pgfdeclarelayer{background}
+\pgfsetlayers{background,main}
+
+\begin{tikzpicture}  [scale=1.2]
+  \node (a)[vertex] at (0,2) {a};
+  \node (b)[vertex] at (1,1) {b};
+  \node (c)[vertex] at (3,2) {c};
+  \node (d)[vertex] at (4,1) {d};
+  \node (e)[vertex] at (2,0) {e};
+  \node (f)[vertex] at (1,3) {f};
+  \node (g)[vertex] at (5,3) {g};
+  \node (h)[vertex] at (0,1) {h};
+
+  \foreach \from/\to in {a/f,f/g,h/b,b/c,c/d,d/e,e/b,f/c}
+    \draw (\from) -- (\to);
+
+  \begin{pgfonlayer}{background}
+    \draw (b.center) edge[selected edge] (c.center);
+    \draw (c.center) edge[selected edge] (d.center);
+    \draw (d.center) edge[selected edge] (e.center);
+    \draw (e.center) edge[selected edge] (b.center);
+  \end{pgfonlayer}
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>7 bridges</h1>
+<script type="text/tikz" data-show-console="true">
+
+\usetikzlibrary{arrows.meta,shapes,positioning}
+
+\begin{document}
+\begin{tikzpicture}[node distance=4cm]
+  \useasboundingbox (-1,-1) rectangle (11,11);
+  \tikzset{VertexStyle/.style=
+    {circle, ball color=orange, text=black, inner sep=2pt, outer sep=0pt, minimum size=24pt}}
+  \tikzset{EdgeStyle/.style={thick, double=orange, double distance=1pt}}
+  \tikzset{LabelStyle/.style={draw, fill=yellow, text=red}}
+
+  \node[VertexStyle](A){A};
+  \node[VertexStyle,right=of A](B){B};
+  \node[VertexStyle,right=of B](C){C};
+  \node[VertexStyle,above=8cm of B](D){D};
+
+  \draw[EdgeStyle] (B) to node[LabelStyle]{1} (D);
+  \tikzset{EdgeStyle/.append style={bend left}}
+  \draw[EdgeStyle] (A) to node[LabelStyle]{2} (B);
+  \draw[EdgeStyle] (B) to node[LabelStyle]{3} (A);
+  \draw[EdgeStyle] (B) to node[LabelStyle]{4} (C);
+  \draw[EdgeStyle] (C) to node[LabelStyle]{5} (B);
+  \draw[EdgeStyle] (A) to node[LabelStyle]{6} (D);
+  \draw[EdgeStyle] (D) to node[LabelStyle]{7} (C);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>mergesort</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{fancybox}
+\usepackage{tikz}
+
+\begin{document}
+\begin{tikzpicture}[level/.style={sibling distance=60mm/#1}]
+\node [circle,draw] (z){$n$}
+  child {node [circle,draw] (a) {$\frac{n}{2}$}
+    child {node [circle,draw] (b) {$\frac{n}{2^2}$}
+      child {node {$\vdots$}
+        child {node [circle,draw] (d) {$\frac{n}{2^k}$}}
+        child {node [circle,draw] (e) {$\frac{n}{2^k}$}}
+      } 
+      child {node {$\vdots$}}
+    }
+    child {node [circle,draw] (g) {$\frac{n}{2^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  }
+  child {node [circle,draw] (j) {$\frac{n}{2}$}
+    child {node [circle,draw] (k) {$\frac{n}{2^2}$}
+      child {node {$\vdots$}}
+      child {node {$\vdots$}}
+    }
+  child {node [circle,draw] (l) {$\frac{n}{2^2}$}
+    child {node {$\vdots$}}
+    child {node (c){$\vdots$}
+      child {node [circle,draw] (o) {$\frac{n}{2^k}$}}
+      child {node [circle,draw] (p) {$\frac{n}{2^k}$}
+        child [grow=right] {node (q) {$=$} edge from parent[draw=none]
+          child [grow=right] {node (q) {$O_{k = \lg n}(n)$} edge from parent[draw=none]
+            child [grow=up] {node (r) {$\vdots$} edge from parent[draw=none]
+              child [grow=up] {node (s) {$O_2(n)$} edge from parent[draw=none]
+                child [grow=up] {node (t) {$O_1(n)$} edge from parent[draw=none]
+                  child [grow=up] {node (u) {$O_0(n)$} edge from parent[draw=none]}
+                }
+              }
+            }
+            child [grow=down] {node (v) {$O(n \cdot \lg n)$}edge from parent[draw=none]}
+          }
+        }
+      }
+    }
+  }
+};
+\path (a) -- (j) node [midway] {+};
+\path (b) -- (g) node [midway] {+};
+\path (k) -- (l) node [midway] {+};
+\path (k) -- (g) node [midway] {+};
+\path (d) -- (e) node [midway] {+};
+\path (o) -- (p) node [midway] {+};
+\path (o) -- (e) node (x) [midway] {$\cdots$}
+  child [grow=down] {
+    node (y) {$O\left(\displaystyle\sum_{i = 0}^k 2^i \cdot \frac{n}{2^i}\right)$}
+    edge from parent[draw=none]
+  };
+\path (q) -- (r) node [midway] {+};
+\path (s) -- (r) node [midway] {+};
+\path (s) -- (t) node [midway] {+};
+\path (s) -- (l) node [midway] {=};
+\path (t) -- (u) node [midway] {+};
+\path (z) -- (u) node [midway] {=};
+\path (j) -- (t) node [midway] {=};
+\path (y) -- (x) node [midway] {$\Downarrow$};
+\path (v) -- (y)
+  node (w) [midway] {$O\left(\displaystyle\sum_{i = 0}^k n\right) = O(k \cdot n)$};
+\path (q) -- (v) node [midway] {=};
+\path (e) -- (x) node [midway] {+};
+\path (o) -- (x) node [midway] {+};
+\path (y) -- (w) node [midway] {$=$};
+\path (v) -- (w) node [midway] {$\Leftrightarrow$};
+\path (r) -- (c) node [midway] {$\cdots$};
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>two's complement for 4bit value</h1>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{shadows}  % Used library shadows of the tikz package
+\begin{document}
+\begin{tikzpicture}[
+     auto,                % some style definitions of the elements follow
+     node distance = 0cm, % used in this picture
+     bin/.style    = {rectangle, fill=white, text=black},
+     dec/.style    = {draw=none, text=black},
+    circ/.style    = {circle, top color=white, bottom color=blue!50,
+    draw=blue, very thin, minimum size=5.25cm, drop shadow={opacity=0.5}}
+  ]
+  % draw a grid in the background
+  \draw[step=1,gray,thin] (-4,-4) grid (4,4);
+  \node[circ] (center) at (0,0)  {};
+  \node[font=\sffamily]   (4bit)   at (0,.5) {4 bit};
+
+  % Simply hand calculated angles for the positions of the bit values
+  %varound the circle
+
+  \foreach \angle / \bits in {%
+      0/0000, 22.5/0001, 45/0010, 67.5/0011, 90/0100, 112.5/0101,
+    135/0110, 157.5/0111, 180/1000, 202.5/1001, 225/1010, 247.5/1011,
+    270/1100, 292.5/1101, 315/1110, 337.5/1111}
+    \draw (\angle:3.25cm) node [bin, font=\ttfamily] {\bits};
+
+  \draw[fill=red, opacity=.25]
+    (-4,-4) -- (-4cm,.8cm) -- (4cm,-0.7cm) -- (4cm,-4cm) -- cycle;
+
+  % Simply hand calculated angles for the positions of
+  % the decimal values around the circle
+
+  \foreach \angle / \dez in {%
+    0/0, 22.5/1, 45/2, 67.5/3, 90/4, 112.5/5, 135/6, 157.5/7, 180/-8,
+    202.5/-7, 225/-6, 247.5/-5, 270/-4, 292.5/-3, 315/-2, 337.5/-1}
+    \draw (\angle:2.25cm) node [dec, font=\sffamily] {\dez};
+
+  \foreach \angle / \bits in {%
+      0/0000, 22.5/0001, 45/0010, 67.5/0011, 90/0100, 112.5/0101,
+    135/0110, 157.5/0111, 180/1000, 202.5/1001, 225/1010, 247.5/1011,
+    270/1100, 292.5/1101, 315/1110, 337.5/1111}
+    \draw (\angle:3.25cm) node [bin, fill=none, font=\ttfamily] {\bits};
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>red black tree</h1>
+<script type="text/tikz" data-show-console="true">
+
+\usepackage{tikz}
+
+\usetikzlibrary{arrows}
+\tikzset{
+  treenode/.style = {align=center, inner sep=0pt, text centered,
+    font=\sffamily},
+  arn_n/.style = {treenode, circle, white, font=\sffamily\bfseries, draw=black,
+    fill=black, text width=1.5em},% arbre rouge noir, noeud noir
+  arn_r/.style = {treenode, circle, red, draw=red, 
+    text width=1.5em, very thick},% arbre rouge noir, noeud rouge
+  arn_x/.style = {treenode, rectangle, draw=black,
+    minimum width=0.5em, minimum height=0.5em}% arbre rouge noir, nil
+}
+
+\begin{document}
+\begin{tikzpicture}[->,>=stealth',level/.style={sibling distance = 5cm/#1,
+  level distance = 1.5cm}] 
+\node [arn_n] {33}
+    child{ node [arn_r] {15} 
+            child{ node [arn_n] {10} 
+            	child{ node [arn_r] {5} edge from parent node[above left]
+                         {$x$}} %for a named pointer
+							child{ node [arn_x] {}}
+            }
+            child{ node [arn_n] {20}
+							child{ node [arn_r] {18}}
+							child{ node [arn_x] {}}
+            }                            
+    }
+    child{ node [arn_r] {47}
+            child{ node [arn_n] {38} 
+							child{ node [arn_r] {36}}
+							child{ node [arn_r] {39}}
+            }
+            child{ node [arn_n] {51}
+							child{ node [arn_r] {49}}
+							child{ node [arn_x] {}}
+            }
+		}
+; 
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h2>another red black tree</h2>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{trees,arrows,positioning, calc}
+\tikzstyle{redVertex}  =[draw,fill=red,     circle,minimum size=18pt,inner sep=0pt, text=white]
+\tikzstyle{blackVertex}=[draw,fill=black,   circle,minimum size=18pt,inner sep=0pt, text=white]
+\tikzstyle{nil}        =[draw,fill=black,rectangle,minimum size=18pt,inner sep=0pt, text=white]
+
+\begin{document}
+\begin{tikzpicture}[font=\sffamily,very thick,level/.style={sibling distance=80mm/#1}]
+\node [blackVertex] (r){8}
+  child {
+    node [blackVertex] {3}
+    child {
+      node [redVertex] {2}
+      child {
+        node [blackVertex] {-3}
+        child {
+            node [redVertex] {-4}
+            child {node [nil] {NIL}}
+            child {node [nil] {NIL}}
+        }
+      }
+      child {
+        node [blackVertex] {2}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+    }
+    child {
+      node [blackVertex] {6}
+      child {
+        node [redVertex] {5}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+      child {
+        node [redVertex] {7}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+    }
+  }
+  child {
+    node [blackVertex] {17}
+    child {
+      node [blackVertex] {9}
+      child {
+        node [redVertex] {11}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+    }
+    child {
+      node [redVertex] {19}
+      child {
+        node [blackVertex] {17}
+        child {
+          node [redVertex] {17}
+          child {node [nil] {NIL}}
+          child {node [nil] {NIL}}
+        }
+      }
+      child {
+        node [blackVertex] {20}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+    }
+  };
+\end{tikzpicture}
+\end{document}
+</script>
+
+
+
+<h2>small red black tree</h2>
+<script type="text/tikz" data-show-console="true">
+\usetikzlibrary{trees,arrows,positioning, calc}
+\tikzstyle{redVertex}  =[draw,fill=red,     circle,minimum size=18pt,inner sep=0pt, text=white]
+\tikzstyle{blackVertex}=[draw,fill=black,   circle,minimum size=18pt,inner sep=0pt, text=white]
+\tikzstyle{nil}        =[draw,fill=black,rectangle,minimum size=18pt,inner sep=0pt, text=white]
+
+\begin{document}
+\begin{tikzpicture}[font=\sffamily,very thick,level/.style={sibling distance=80mm/#1}]
+\node [blackVertex] (r){2}
+      child {
+        node [blackVertex] {1}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      }
+      child {
+        node [blackVertex] {3}
+        child {node [nil] {NIL}}
+        child {node [nil] {NIL}}
+      };
+\end{tikzpicture}
+\end{document}
+</script>
+
+<!--
+<h1>tikz-cd</h1>
+    <script type="text/tikz" data-show-console="true">%
+    \usepackage{amssymb}
+    \usepackage{quiver}
+    \usepackage{tikz-cd}
+    \usetikzlibrary{decorations.pathmorphing}
+    \begin{document}
+    % https://q.uiver.app/?q=WzAsNyxbMSwxLCJhIl0sWzMsMSwiYiJdLFsxLDIsImMiXSxbMywyLCJjIl0sWzEsMCwiRiJdLFswLDAsIlxccHJvZCJdLFswLDEsIlxcc3VtIl0sWzAsMV0sWzAsMiwiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZG90dGVkIn19fV0sWzIsMywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoiZGFzaGVkIn19fV0sWzEsMywiIiwyLHsic3R5bGUiOnsiYm9keSI6eyJuYW1lIjoic3F1aWdnbHkifX19XSxbNCwwLCIiLDMseyJzdHlsZSI6eyJ0YWlsIjp7Im5hbWUiOiJob29rIiwic2lkZSI6InRvcCJ9LCJib2R5Ijp7Im5hbWUiOiJiYXJyZWQifSwiaGVhZCI6eyJuYW1lIjoiaGFycG9vbiIsInNpZGUiOiJ0b3AifX19XSxbNSw2XSxbNyw5LCIiLDIseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzEyLDExLCIiLDMseyJzaG9ydGVuIjp7InNvdXJjZSI6MjAsInRhcmdldCI6MjB9fV0sWzAsOSwiIiwwLHsibGV2ZWwiOjEsInN0eWxlIjp7Im5hbWUiOiJjb3JuZXIifX1dLFsxNCwxMywiIiwzLHsiY3VydmUiOjMsImxldmVsIjoxLCJzdHlsZSI6eyJib2R5Ijp7Im5hbWUiOiJkYXNoZWQifX19XV0=
+    \begin{tikzcd}
+        \prod & F \\
+        \sum & a && b \\
+        & c && c
+        \arrow[""{name=0, anchor=center, inner sep=0}, from=2-2, to=2-4]
+        \arrow[dotted, from=2-2, to=3-2]
+        \arrow[""{name=1, anchor=center, inner sep=0}, dashed, from=3-2, to=3-4]
+        \arrow[squiggly, from=2-4, to=3-4]
+        \arrow[""{name=2, anchor=center, inner sep=0}, "\shortmid"{marking}, hook, harpoon, from=1-2, to=2-2]
+        \arrow[""{name=3, anchor=center, inner sep=0}, from=1-1, to=2-1]
+        \arrow[""{name=4, anchor=center, inner sep=0}, shorten <=4pt, shorten >=4pt, Rightarrow, from=0, to=1]
+        \arrow[""{name=5, anchor=center, inner sep=0}, shorten <=6pt, shorten >=6pt, Rightarrow, from=3, to=2]
+        \arrow["\lrcorner"{anchor=center, pos=0.125}, draw=none, from=2-2, to=1]
+        \arrow[curve={height=18pt}, dashed, from=5, to=4]
+    \end{tikzcd}
+    \end{document}
 </script>
 
 <h1>pgfplots</h1>
@@ -131,6 +782,7 @@ to[R=$R_2$, i>_=$i_2$]
 }
 \end{document}
 </script>
+-->
 
 </body>
 </html>
