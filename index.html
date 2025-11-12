@@ -8,6 +8,34 @@
 </head>
 <body>
 
+<h1>bubblesort pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage[ruled,vlined]{algorithm2e} % Include the package with options
+
+\begin{document}
+
+\begin{algorithm}[H] % [H] for "here", trying to place it exactly here
+\SetAlgoLined % Adds lines between instructions
+\KwData{Input list $L$}
+\KwResult{Sorted list $L$}
+\caption{Bubble Sort Algorithm}
+\label{alg:bubble_sort}
+
+\For{$i \gets 1$ \KwTo $length(L)-1$}{
+    \For{$j \gets 1$ \KwTo $length(L)-i$}{
+        \If{$L[j] > L[j+1]$}{
+            Swap $L[j]$ and $L[j+1]$\;
+        }
+    }
+}
+\Return{$L$}\;
+\end{algorithm}
+
+\end{document}
+
+</script>
+
+
 <h1>uml diagram</h1>
 <script type="text/tikz" data-show-console="true">
 \usepackage{tikz-uml}
