@@ -8,7 +8,253 @@
 </head>
 <body>
 
-<h1>binary tree pseudocode</h1>
+
+<h1>perceptron pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+\usepackage{amsmath,amssymb}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\usepackage{varwidth}                 % <-- lets the box shrink to content
+
+% Reliable, explicit preview
+\usepackage[active,tightpage]{preview}
+\pagestyle{empty}
+
+% algorithm2e cosmetics (optional)
+\DontPrintSemicolon
+\setlength{\algomargin}{1em}
+\let\vec\mathbf
+
+\begin{document}
+\begin{preview}
+\begin{tikzpicture}[x=1pt,y=1pt]
+  % The algorithm goes in a varwidth box (auto-width), no extra padding
+  \node[anchor=north west, inner sep=0pt, outer sep=0pt] (ALG) at (0,0) {%
+    \begin{varwidth}{\maxdimen}\noindent
+      \begin{algorithm}[H]
+        \caption{Perceptron Learning Algorithm}
+        \KwData{$D=\{(\vec{x_i},y_i)\}_{i=1}^{|D|}$, $\vec{x_i}\in\mathbb{R}^n$, $y_i\in\{-1,1\}$}
+        \KwResult{$\vec{w}$}
+        $\vec{w}\leftarrow 0$\;
+        $converged\leftarrow \text{false}$\;
+        \While{$\neg\,converged$}{
+          $converged\leftarrow \text{true}$\;
+          \For{$i\leftarrow 1$ \KwTo $|D|$}{
+            \If{$y_i(\vec{w}\!\cdot\!\vec{x_i})\le 0$}{
+              $\vec{w}\leftarrow \vec{w}+\eta\,y_i\,\vec{x_i}$\;
+              $converged\leftarrow \text{false}$\;
+            }
+          }
+        }
+      \end{algorithm}
+    \end{varwidth}
+  };
+
+  % Tight crop: emit an invisible rectangle exactly on ALG (±0.25pt vertical cushion)
+  \path[draw,opacity=0,line width=0pt]
+    ([yshift=+0.25pt]ALG.north west) rectangle ([yshift=-0.25pt]ALG.south east);
+\end{tikzpicture}
+\end{preview}
+\end{document}
+</script>
+
+<h1>bst pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+\usepackage{amsmath,amssymb}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+% Explicit preview block (more reliable than \PreviewEnvironment in some builds)
+\usepackage[active,tightpage]{preview}
+\pagestyle{empty}
+
+% algorithm2e niceties (optional)
+\DontPrintSemicolon
+\setlength{\algomargin}{1em}
+\let\vec\mathbf
+
+\begin{document}
+\begin{preview}                 % <— explicit preview open
+\begin{tikzpicture}[x=1pt,y=1pt,baseline=(ALG.north)]
+  % Put the algorithm in a minipage; add a top strut so the header isn't clipped
+  \node[anchor=north west, inner sep=0pt, outer sep=0pt] (ALG) at (0,0) {%
+    \begin{minipage}{520pt}\vspace*{1ex}
+      \begin{algorithm}[H]
+\SetAlgoLined
+\KwData{BST root pointer $T$, key $k$}
+\KwResult{Pointer to node with key $k$ if present, else \texttt{NIL}}
+$cur \leftarrow T$\;
+\While{$cur \neq \texttt{NIL}$}{
+    \uIf{$k = cur.key$}{\Return $cur$}
+    \uElseIf{$k < cur.key$}{$cur \leftarrow cur.left$}
+    \Else{$cur \leftarrow cur.right$}
+}
+\Return \texttt{NIL}\;
+\caption{BST-Search$(T,k)$}
+      \end{algorithm}
+    \end{minipage}
+  };
+
+  % Force the page bbox to exactly this rectangle by emitting a real (invisible) path:
+  \path[draw,opacity=0,line width=0pt]
+    (ALG.north west) rectangle (ALG.south east);
+
+\end{tikzpicture}
+\end{preview}                 % <— explicit preview close
+\end{document}
+</script>
+
+<h1>perceptron pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{tikz}
+\usetikzlibrary{positioning,fit}
+\usepackage{amsmath,amssymb}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+% Explicit preview block (more reliable than \PreviewEnvironment in some builds)
+\usepackage[active,tightpage]{preview}
+\pagestyle{empty}
+
+% algorithm2e niceties (optional)
+\DontPrintSemicolon
+\setlength{\algomargin}{1em}
+\let\vec\mathbf
+
+\begin{document}
+\begin{preview}                 % <— explicit preview open
+\begin{tikzpicture}[x=1pt,y=1pt,baseline=(ALG.north)]
+  % Put the algorithm in a minipage; add a top strut so the header isn't clipped
+  \node[anchor=north west, inner sep=0pt, outer sep=0pt] (ALG) at (0,0) {%
+    \begin{minipage}{520pt}\vspace*{1ex}
+      \begin{algorithm}[H]
+        \caption{Perceptron Learning Algorithm}
+        \KwData{$D=\{(\vec{x_i},y_i)\}_{i=1}^{|D|}$, $\vec{x_i}\in\mathbb{R}^n$, $y_i\in\{-1,1\}$}
+        \KwResult{$\vec{w}$}
+        $\vec{w}\leftarrow 0$\;
+        $converged\leftarrow \text{false}$\;
+        \While{$\neg\,converged$}{
+          $converged\leftarrow \text{true}$\;
+          \For{$i\leftarrow 1$ \KwTo $|D|$}{
+            \If{$y_i(\vec{w}\!\cdot\!\vec{x_i})\le 0$}{
+              $\vec{w}\leftarrow \vec{w}+\eta\,y_i\,\vec{x_i}$\;
+              $converged\leftarrow \text{false}$\;
+            }
+          }
+        }
+      \end{algorithm}
+    \end{minipage}
+  };
+
+  % Force the page bbox to exactly this rectangle by emitting a real (invisible) path:
+  \path[draw,opacity=0,line width=0pt]
+    (ALG.north west) rectangle (ALG.south east);
+
+\end{tikzpicture}
+\end{preview}                 % <— explicit preview close
+\end{document}
+</script>
+
+<h1>perceptron pseudocode</h1>
+<script type="text/tikz" data-show-console="true" class="tikz-alg">
+\usepackage{tikz}
+\usetikzlibrary{fit,positioning}
+\usepackage{amsmath,amssymb}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}   % preview only tikzpicture
+\pagestyle{empty}
+
+% algorithm2e cosmetics (optional)
+\DontPrintSemicolon
+\setlength{\algomargin}{1em}
+\let\vec\mathbf
+
+\begin{document}
+\begin{tikzpicture}
+  % Place the box slightly below the top edge to avoid the preview “top shave”
+  \node[anchor=north west, inner sep=0pt, outer sep=0pt] (ALG) at (0,0.8ex) {%
+    \begin{minipage}{520pt} % width: adjust to taste
+      \vspace*{0.5ex}% top strut to prevent clipping
+      \begin{algorithm}[H]
+        \caption{Perceptron Learning Algorithm}
+        \KwData{Training data $D=\{(\vec{x_i},y_i)\}_{i=1}^{|D|}$ where $\vec{x_i}\in\mathbb{R}^n$ and $y_i\in\{-1,1\}$}
+        \KwResult{Weight vector $\vec{w}$}
+        $\vec{w}\leftarrow 0$\;
+        $converged\leftarrow \text{false}$\;
+        \While{$\neg\,converged$}{
+          $converged\leftarrow \text{true}$\;
+          \For{$i\leftarrow 1$ \KwTo $|D|$}{
+            \If{$y_i(\vec{w}\!\cdot\!\vec{x_i})\le 0$}{
+              $\vec{w}\leftarrow \vec{w}+\eta\,y_i\,\vec{x_i}$\;
+              $converged\leftarrow \text{false}$\;
+            }
+          }
+        }
+      \end{algorithm}
+    \end{minipage}
+  };
+
+  % Tight, reliable cropping: make the picture’s bbox exactly the algorithm box (+1pt padding)
+  \path[use as bounding box]
+    ([xshift=-1pt,yshift=+1pt]ALG.north west)
+    rectangle
+    ([xshift=+1pt,yshift=-1pt]ALG.south east);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>perceptron pseudocode</h1>
+<script type="text/tikz" data-show-console="true" class="tikz-alg">
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+\usepackage{amsmath,amssymb}
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}     % keep ONLY this
+\pagestyle{empty}
+
+% (Optional) tidy algorithm2e look
+\setlength{\algomargin}{1em}
+\DontPrintSemicolon
+
+\begin{document}
+\begin{tikzpicture}[x=1pt,y=1pt]
+  % Counter the global TikZJax Y-flip just for this block:
+  \begin{scope}[yscale=1]
+    \node[inner sep=0pt, outer sep=0pt, anchor=north west, transform shape] (ALG) at (0,0) {%
+      \begin{minipage}{820pt} % ← set desired width
+        \begin{algorithm}[H]
+          \caption{Perceptron Learning Algorithm}
+          \KwData{Training data $D=\{(\vec{x_i},y_i)\}_{i=1}^{|D|}$ where $\vec{x_i}\in\mathbb{R}^n$ and $y_i\in\{-1,1\}$}
+          \KwResult{Weight vector $\vec{w}$}
+          $\vec{w}\leftarrow 0$\;
+          $converged\leftarrow \text{false}$\;
+          \While{$\neg\,converged$}{
+            $converged\leftarrow \text{true}$\;
+            \For{$i\leftarrow 1$ \KwTo $|D|$}{
+              \If{$y_i(\vec{w}\cdot\vec{x_i})\le 0$}{
+                $\vec{w}\leftarrow \vec{w}+\eta\,y_i\,\vec{x_i}$\;
+                $converged\leftarrow \text{false}$\;
+              }
+            }
+          }
+        \end{algorithm}
+      \end{minipage}
+    };
+  \end{scope}
+
+  % Make the SVG’s bbox exactly the node’s rectangle:
+  \pgfresetboundingbox
+  \path[use as bounding box] (ALG.north west) rectangle (ALG.south east);
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>perceptron pseudocode</h1>
 <script type="text/tikz" data-show-console="true">
 \usepackage{algorithm2e}
 \usepackage{amssymb}
@@ -45,7 +291,12 @@ $converged \leftarrow \text{false}$\;
 <script type="text/tikz" data-show-console="true">
 \usepackage[ruled,vlined]{algorithm2e} % Include the package with options
 
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\PreviewEnvironment{algorithm} 
+
 \begin{document}
+\begin{tikzpicture}
 \begin{algorithm}[H]
 \SetAlgoLined
 \KwData{BST root pointer $T$, key $k$}
@@ -59,6 +310,7 @@ $cur \leftarrow T$\;
 \Return \texttt{NIL}\;
 \caption{BST-Search$(T,k)$}
 \end{algorithm}
+\end{tikzpicture}
 \end{document}
 </script>
 
