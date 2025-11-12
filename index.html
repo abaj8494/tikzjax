@@ -2,11 +2,65 @@
 
 <html>
 <head>
-	<meta charset="utf-8">
-	<script src="https://abaj.ai/code/tikzjax/output/tikzjax.js"></script>
-	<link rel="stylesheet" href="https://abaj.ai/code/tikzjax/output/fonts.css">
+<meta charset="utf-8">
+<script src="https://abaj.ai/code/tikzjax/output/tikzjax.js"></script>
+<link rel="stylesheet" href="https://abaj.ai/code/tikzjax/output/fonts.css">
 </head>
 <body>
+
+<h1>binary tree pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage{algorithm2e}
+\usepackage{amssymb}
+\usepackage[active,tightpage]{preview}
+\PreviewEnvironment{tikzpicture}
+\PreviewEnvironment{algorithm} 
+
+\usepackage{amsmath}
+\begin{document}
+\begin{tikzpicture}
+\begin{algorithm}[H]
+\let\vec\mathbf
+\SetAlgoLined
+\KwData{Training data $D = \{(\vec{x_i}, y_i)\}_{i=1}^{|D|}$ where $\vec{x_i} \in \mathbb{R}^n$ and $y_i \in \{-1, 1\}$}
+\KwResult{Weight vector $\vec{w}$}
+$\vec{w} \leftarrow 0$ \tcp*[h]{Other initialisations of the weight vector are possible}\;
+$converged \leftarrow \text{false}$\;
+\While{$converged = \text{false}$}{
+  $converged \leftarrow \text{true}$\;
+  \For{$i \leftarrow 1$ \KwTo $|D|$}{
+      \If{$y_i (\vec{w} \cdot \vec{x_i}) \leq 0$ \tcp*[h]{i.e., $\hat{y}_i \neq y_i$}}{
+          $\vec{w} \leftarrow \vec{w} + \eta y_i \vec{x_i}$\;
+          $converged \leftarrow \text{false}$ \tcp*[h]{We changed $\vec{w}$, so haven't converged yet}\;
+      }
+  }
+}
+\caption{Perceptron Learning Algorithm}
+\end{algorithm}
+\end{tikzpicture}
+\end{document}
+</script>
+
+<h1>binary tree pseudocode</h1>
+<script type="text/tikz" data-show-console="true">
+\usepackage[ruled,vlined]{algorithm2e} % Include the package with options
+
+\begin{document}
+\begin{algorithm}[H]
+\SetAlgoLined
+\KwData{BST root pointer $T$, key $k$}
+\KwResult{Pointer to node with key $k$ if present, else \texttt{NIL}}
+$cur \leftarrow T$\;
+\While{$cur \neq \texttt{NIL}$}{
+    \uIf{$k = cur.key$}{\Return $cur$}
+    \uElseIf{$k < cur.key$}{$cur \leftarrow cur.left$}
+    \Else{$cur \leftarrow cur.right$}
+}
+\Return \texttt{NIL}\;
+\caption{BST-Search$(T,k)$}
+\end{algorithm}
+\end{document}
+</script>
 
 <h1>bubblesort pseudocode</h1>
 <script type="text/tikz" data-show-console="true">
